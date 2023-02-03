@@ -1,2 +1,5 @@
 # ADB-1
-another discord bot
+discord bot with discord.py:
+!cat - random cat pic
+!dog - random dog pic
+!defish - defisheye on the image
