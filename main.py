@@ -4,8 +4,8 @@ import tomli
 from discord.ext import commands
 
 import os
-import animal_pic
-import image_distortion
+import img_operations.animal_pic as animal_pic
+import img_operations.image_distortion as image_distortion
 
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 
