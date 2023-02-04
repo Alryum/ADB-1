@@ -6,6 +6,7 @@ from discord.ext import commands
 import os
 import img_operations.animal_pic as animal_pic
 import img_operations.image_distortion as image_distortion
+from cogs.music_cog import music_cog
 
 handler = logging.FileHandler(
     filename='discord.log', encoding='utf-8', mode='w')
@@ -18,6 +19,7 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
+    await bot.add_cog(music_cog(bot))
     print(f'Logged in as {bot.user}')
 
 
