@@ -5,16 +5,18 @@ import os
 
 from defisheye import Defisheye
 
+
 def download_image(url, author_id):
     file_name = author_id
-    response = requests.get(url, stream = True)
+    response = requests.get(url, stream=True)
     if response.status_code == 200:
-        with open(f'{file_name}.jpg','wb') as f:
+        with open(f'{file_name}.jpg', 'wb') as f:
             shutil.copyfileobj(response.raw, f)
         print(f'Image sucessfully Downloaded: {file_name}.jpg')
         return f'{file_name}.jpg'
     else:
         print('Image Couldn\'t be retrieved')
+
 
 def defish(url, author_id):
     img = download_image(url, author_id)

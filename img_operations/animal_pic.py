@@ -1,9 +1,11 @@
 import requests
 
+
 def get_random_cat_link() -> str:
     response = requests.get('https://aws.random.cat/meow')
     cat_json = response.json()
     return cat_json['file']
+
 
 def get_random_dog_link() -> str:
     response = requests.get('https://random.dog/woof.json')
