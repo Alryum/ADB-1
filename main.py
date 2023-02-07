@@ -4,8 +4,6 @@ import tomli
 from discord.ext import commands
 
 import os
-import img_operations.animal_pic as animal_pic
-import img_operations.image_distortion as image_distortion
 from cogs.music_cog import music_cog
 from cogs.help_cog import help_cog
 from cogs.animal_img_cog import animal_img_cog

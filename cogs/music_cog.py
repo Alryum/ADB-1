@@ -14,7 +14,7 @@ class music_cog(commands.Cog, discord.Client):
 
         # 2d array containing [song, channel]
         self.music_queue = []
-        self.YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True'}
+        self.YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'False'}
         self.FFMPEG_OPTIONS = {
             'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
 
@@ -65,10 +65,12 @@ class music_cog(commands.Cog, discord.Client):
                 await self.vc.move_to(self.music_queue[0][1])
 
             # remove the first element as you are currently playing it
+            await ctx.send(f"Сейчас играет: {self.music_queue[0][0]['title']}")
             self.music_queue.pop(0)
 
             self.vc.play(discord.FFmpegPCMAudio(
                 m_url, **self.FFMPEG_OPTIONS), after=lambda e: self.play_next())
+            
         else:
             self.is_playing = False
 
@@ -85,13 +87,13 @@ class music_cog(commands.Cog, discord.Client):
         else:
             song = self.search_yt(query)
             if type(song) == type(True):
-                await ctx.send("Не удалось скачать трек. Неверный формат, попробуйте другое ключевое слово.")
+                await ctx.send("Не удалось скачать трек, попробуй другую ссылку")
             else:
                 await ctx.send("Трек был добавлен в очередь")
                 self.music_queue.append([song, voice_channel])
 
                 if self.is_playing == False:
-                    await ctx.send(f"Сейчас играет: {self.music_queue[0][0]['title']}")
+                    # await ctx.send(f"Сейчас играет: {self.music_queue[0][0]['title']}")
                     await self.play_music(ctx)
 
     @commands.command(name="pause", aliases=["пауза"], help="Pauses the current song being played")
@@ -137,14 +139,14 @@ class music_cog(commands.Cog, discord.Client):
         else:
             await ctx.send("В очереди нет треков")
 
-    @commands.command(name="clear", aliases=["c", "bin"], help="Stops the music and clears the queue")
+    @commands.command(name="clear", aliases=["c"], help="Stops the music and clears the queue")
     async def clear(self, ctx):
         if self.vc != None and self.is_playing:
             self.vc.stop()
         self.music_queue = []
         await ctx.send("Очередь очищена")
 
-    @commands.command(name="leave", aliases=["disconnect", "l", "d"], help="Kick the bot from VC")
+    @commands.command(name="leave", aliases=["d"], help="Kick the bot from VC")
     async def dc(self, ctx):
         self.is_playing = False
         self.is_paused = False
