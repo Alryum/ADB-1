@@ -8,6 +8,7 @@ import img_operations.animal_pic as animal_pic
 import img_operations.image_distortion as image_distortion
 from cogs.music_cog import music_cog
 from cogs.help_cog import help_cog
+from cogs.animal_img_cog import animal_img_cog
 
 handler = logging.FileHandler(
     filename='discord.log', encoding='utf-8', mode='w')
@@ -22,6 +23,7 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 async def on_ready():
     await bot.add_cog(music_cog(bot))
     await bot.add_cog(help_cog(bot))
+    await bot.add_cog(animal_img_cog(bot))
     print(f'Logged in as {bot.user}')
 
 
@@ -29,23 +31,6 @@ async def on_ready():
 async def ping(ctx):
     await ctx.send('На месте спортсмены')
 
-
-@bot.command()
-async def cat(ctx):
-    await ctx.send(animal_pic.get_random_cat_link())
-
-
-@bot.command()
-async def dog(ctx):
-    await ctx.send(animal_pic.get_random_dog_link())
-
-
-@bot.command()
-async def defish(ctx):
-    img_name = image_distortion.defish(
-        ctx.message.attachments[0].url, ctx.message.author.id)
-    await ctx.send(file=discord.File(img_name))
-    await os.remove(img_name)
 
 bot.remove_command('help')
 bot.run(config['TOKEN'], log_handler=handler)
